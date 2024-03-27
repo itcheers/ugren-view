@@ -1,19 +1,27 @@
 <script setup>
-import HelloWorld from './components/HelloWorld.vue'
+import { ref } from 'vue'
+import UserSite from "@/components/UserSite.vue";
+import EngineerSite from "@/components/EngineerSite.vue";
+
+const currentSite = ref('')
+const showSite = (site) => {
+  currentSite.value = site;
+}
+
 </script>
 
 <template>
   <header>
-    <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />
-
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-    </div>
+    U G R E N
   </header>
 
   <main>
-
+    <button @click="showSite('engineer')">ENGINEER SITE</button>
+    <button @click="showSite('user')">USER SITE</button>
+    <EngineerSite v-if="currentSite === 'engineer'" />
+    <UserSite v-else-if="currentSite === 'user'" />
   </main>
+
 </template>
 
 <style scoped>
@@ -21,26 +29,16 @@ header {
   line-height: 1.5;
 }
 
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
-
 @media (min-width: 1024px) {
   header {
     display: flex;
     place-items: center;
     padding-right: calc(var(--section-gap) / 2);
+    font-size: large;
   }
 
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
+  button {
+    margin: 10px;
   }
 }
 </style>
