@@ -1,16 +1,18 @@
 <script setup>
 import { reactive, ref, watch } from 'vue'
+import { useRouter } from "vue-router";
 
-const hasTable = ref('no')
-const changeTableState = (state) => {
-  if (state)
-    hasTable.value = 'yes'
-  else
-    hasTable.value = 'no'
+const formData = ref({})
+const emit = defineEmits(['formSubmitted']);
+const router = useRouter()
+
+const submitForm = () => {
+  emit('formSubmitted', formData.value)
+  router.push({ name: 'UserSite.vue' });
 }
 
-const filledColNumber = ref(0);
-const blankColNumber = ref(0);
+const filledColNumber = ref(3);
+const blankColNumber = ref(2);
 
 const filledInputs = reactive([]);
 const generateFilledInputs = () => {
@@ -38,6 +40,10 @@ const rowNumber = ref(0);
 watch(filledColNumber, generateFilledInputs);
 watch(blankColNumber, generateBlankInputs);
 
+const name = ref("DL68 printer");
+const stepNo = ref(1);
+const requirements = ref("The curious cat chased the fluttering butterfly through the lush green meadow, its paws barely touching the soft earth beneath. With each leap, it seemed to come closer to its elusive target, yet the butterfly danced just out of reach, teasing the feline with its delicate wings.");
+
 </script>
 
 <template>
@@ -46,32 +52,31 @@ watch(blankColNumber, generateBlankInputs);
   </h1>
 
   <div>
-    <form method="post">
+    <form method="post" @submit.prevent="submitForm">
       <div>
         <label for="machineModel">Add the Machine/Model Name: </label>
-        <input type="text" id="machineModel" placeholder="Enter machine/model name">
+        <input v-model="name" type="text" id="machineModel" placeholder="Enter machine/model name" name="name">
       </div>
       <div>
         <label>Purpose: </label>
-        <input type="radio" id="test" name="columnType" value="Test">
+        <input type="radio" id="test" name="columnType" value="test">
         <label for="test">Test </label>
-        <input type="radio" id="debug" name="columnType" value="Debug">
+        <input type="radio" id="debug" name="columnType" value="debug">
         <label for="debug">Debug </label>
       </div>
       <div>
         <label for="stepNo">Step No.: </label>
-        <input type="number" id="stepNo" placeholder="enter step number">
+        <input v-model="stepNo" type="number" id="stepNo" placeholder="enter step number">
       </div>
 
       <div>
         <label for="text">Text: </label>
-        <textarea placeholder="input some requirements"></textarea>
+        <textarea v-model="requirements" placeholder="input some requirements"></textarea>
       </div>
       <div>
-        <label for="table">Table: </label>
-        <input type="checkbox" id="table" @click="changeTableState($event.target.checked)" />
+        <label>Table: </label>
 
-        <div v-if="hasTable === 'yes'">
+        <div>
           <label for="filledCol">Filled Column Number: </label>
           <input type="number" id="filledCol" v-model="filledColNumber" @input="generateFilledInputs" />
           <div v-if="filledColNumber > 0">
@@ -117,7 +122,7 @@ watch(blankColNumber, generateBlankInputs);
         <label for="pictures">Pictures: </label>
         <input type="file" id="pictures">
       </div>
-      <input type="submit">
+      <input type="submit" @click="submitForm">
     </form>
   </div>
 </template>

@@ -8,6 +8,11 @@ const showSite = (site) => {
   currentSite.value = site;
 }
 
+const formData = ref({})
+const handleFormSubmission = (data) => {
+  formData.value = data
+}
+
 </script>
 
 <template>
@@ -18,8 +23,8 @@ const showSite = (site) => {
   <main>
     <button @click="showSite('engineer')">ENGINEER SITE</button>
     <button @click="showSite('user')">USER SITE</button>
-    <EngineerSite v-if="currentSite === 'engineer'" />
-    <UserSite v-else-if="currentSite === 'user'" />
+    <EngineerSite v-if="currentSite === 'engineer'" @form-submitted="handleFormSubmission"/>
+    <UserSite v-else-if="currentSite === 'user'" :form-data="formData"/>
   </main>
 
 </template>
