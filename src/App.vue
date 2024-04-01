@@ -9,7 +9,7 @@ import Login from "@/components/Login.vue";
   </header>
 
   <main>
-    <RouterLink to="login">Login</RouterLink>
+    <Login />
   </main>
 
 </template>
