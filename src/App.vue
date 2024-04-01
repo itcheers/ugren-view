@@ -1,17 +1,5 @@
 <script setup>
-import { ref } from 'vue'
-import UserSite from "@/components/UserSite.vue";
-import EngineerSite from "@/components/EngineerSite.vue";
-
-const currentSite = ref('')
-const showSite = (site) => {
-  currentSite.value = site;
-}
-
-const formData = ref({})
-const handleFormSubmission = (data) => {
-  formData.value = data
-}
+import Login from "@/components/Login.vue";
 
 </script>
 
@@ -21,10 +9,7 @@ const handleFormSubmission = (data) => {
   </header>
 
   <main>
-    <button @click="showSite('engineer')">ENGINEER SITE</button>
-    <button @click="showSite('user')">USER SITE</button>
-    <EngineerSite v-if="currentSite === 'engineer'" @form-submitted="handleFormSubmission"/>
-    <UserSite v-else-if="currentSite === 'user'" :form-data="formData"/>
+    <RouterLink to="login">Login</RouterLink>
   </main>
 
 </template>
